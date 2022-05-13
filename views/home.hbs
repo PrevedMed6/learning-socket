@@ -1,0 +1,20 @@
+<div class="container container-sm">
+  <div class="row">
+    <form id="helloForm" name="helloForm" class="d-grid gap-3 align-items-center chat-block m-auto">
+      <h1 class="text-white m-auto text-center mt-3 mb-3">Привет, ты кто?</h1>
+      <input id="userName" type="text" maxlength="50" class="m-auto form-control form-control-lg" required/>
+      <div class="d-flex flex-column">
+        <button id="startButton" type="submit" class="btn btn-success btn-lg chat-button">Начать чат</button>
+        <button id="endButton" type="submit" class="btn btn-warning text-white btn-lg chat-button mt-3 mb-3" disabled>Закончить чат</button>
+      </div>
+    </form>
+  </div>
+  <div id="messageArea" class="border border-white rounded overflow-auto m-auto chat-block message-block text-white"></div>
+  <div class="row">
+    <form id="messageForm" name="messageForm" class="d-flex justify-content-between chat-block m-auto mt-3 chat-column-block">
+      <textarea id="myMessageArea" class="form-control" rows="3" disabled></textarea>
+      <input id="sendButton" type="submit" class="btn btn-success btn-lg" value="Отправить" disabled/>
+    </form>
+  </div>
+</div>
+<script src="/script/index.js"></script>

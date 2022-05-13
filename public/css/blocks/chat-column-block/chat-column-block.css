@@ -1,0 +1,7 @@
+@media screen and (max-width:767px) {
+  .chat-column-block {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    gap:10px;
+  }
+}
