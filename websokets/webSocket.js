@@ -30,7 +30,7 @@ module.exports.websockets = (expressServer) => {
           client.send(reply.message);
         }
       });
-      websocketConnection.on('закрыть', function() {
+      websocketConnection.on('close', function() {
         console.log(`подключение закрыто`);
         clients.delete(websocketConnection);
       });

@@ -50,6 +50,6 @@ function showMessage(message) {
   document.querySelector('#messageArea').prepend(messageElem);
 }
 helloForm.addEventListener('submit', startChat);
-messageForm.addEventListener('submit', endChat);
+endButton.addEventListener('click', endChat);
 // прослушка входящих сообщений
 
