@@ -1,4 +1,4 @@
-let url = 'ws://localhost:3000/ws';
+let url = 'ws://localhost:3001/ws';
 let startButton = document.querySelector('#startButton');
 let endButton = document.querySelector('#endButton');
 let helloForm = document.querySelector('#helloForm');
@@ -12,13 +12,20 @@ function startChat(e) {
   e.preventDefault();
   socket = new WebSocket(url);
   socket.onopen = function() {
-    var message = JSON.stringify({type: 'start', message: userName.value});
+    var message = JSON.stringify({type: 'start', user: userName.value});
     this.send(message);
   };
-  socket.onclose = event => console.log(`Closed ${event.code}`);
-  socket.onmessage = function(event) {
+  socket.onclose = function(event) {
     let incomingMessage = event.data;
-    showMessage(incomingMessage);
+  }
+  socket.onmessage = function(event) {
+    myMessageArea.value = '';
+    let incomingMessage = JSON.parse(event.data);
+    if(incomingMessage.type === 'stop')
+    {
+      socket.close(1000,'Закрыть');
+    }
+    showMessage(incomingMessage.message);
   };
   startButton.disabled = true;
   userName.disabled = true;
@@ -29,7 +36,8 @@ function startChat(e) {
 
 function endChat(e) {
   e.preventDefault();
-  socket.close(1000, "работа закончена");
+  var message = JSON.stringify({type: 'stop', user: userName.value});
+  socket.send(message);
   startButton.disabled = false;
   userName.disabled = false;
   endButton.disabled = true;
@@ -37,11 +45,11 @@ function endChat(e) {
   sendButton.disabled = true;
 }
 // отправка сообщения из формы
-//document.forms.publish.onsubmit = function() {
- // let outgoingMessage = this.message.value;
- // socket.send(outgoingMessage);
- // return false;
-//};
+function sendMessage(e) {
+  e.preventDefault();
+  let message = JSON.stringify({type:'message', user:userName.value, message:myMessageArea.value});
+  socket.send(message);
+};
 
 // отображение информации в div#messages
 function showMessage(message) {
@@ -51,5 +59,5 @@ function showMessage(message) {
 }
 helloForm.addEventListener('submit', startChat);
 endButton.addEventListener('click', endChat);
-// прослушка входящих сообщений
+messageForm.addEventListener('submit', sendMessage);
 

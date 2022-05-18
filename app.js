@@ -28,7 +28,7 @@ app.use(function (req, res, next) {
 
 mongoose.connect("mongodb://localhost:27017/chatdb", { useUnifiedTopology: true }, function(err){
     if(err) return console.log(err);
-    const server = app.listen(3000, function(){
+    const server = app.listen(3001, function(){
         console.log("Сервер ожидает подключения...");
     });
     websockets.websockets(server);

@@ -15,23 +15,27 @@ module.exports.websockets = (expressServer) => {
 
   websocketServer.on(
     "connection",
-    function connection(websocketConnection, connectionRequest) {
+    function connection(websocketConnection) {
       clients.add(websocketConnection);
       websocketConnection.on("message", function(message) {
         let reply = JSON.parse(message);
-        console.log(reply.type);
         if (reply.type === 'start')
         {
-          reply.message = `${reply.message} присоединился к чату!`;
+          reply.message = `${reply.user} присоединился к чату!`;
         }
-       // message = message.slice(0, 500);
+        else if (reply.type === 'stop')
+        {
+          reply.message = `${reply.user} вышел из чата!`;
+        }
+        else
+        {
+          reply.message = `${reply.user}: ${reply.message}`;
+        }
         for(let client of clients) {
-          console.log(reply.message);
-          client.send(reply.message);
+          client.send(JSON.stringify(reply));
         }
       });
       websocketConnection.on('close', function() {
-        console.log(`подключение закрыто`);
         clients.delete(websocketConnection);
       });
     });
